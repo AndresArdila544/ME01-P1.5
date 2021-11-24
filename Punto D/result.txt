@@ -1,0 +1,10 @@
+Sistema de Colas Simple
+
+Tiempo promedio de llegada      7.000 minutos
+
+Tiempo promedio de atencion           8.000 minutos
+
+Numero de clientes            10
+
+Distribucion uniforme(1 , 25)
+Desbordamiento del arreglo tiempo_llegada a la hora-208541908992.000000
