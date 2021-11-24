@@ -28,26 +28,6 @@ int main(void) /* Funcion Principal */
 {
     /* Abre los archivos de entrada y salida */
 
-    parametros = fopen("param.txt", "r");
-    resultados = fopen("result.txt", "w");
-
-    /* Especifica el numero de eventos para la funcion controltiempo. */
-
-    num_eventos = 2;
-
-    /* Lee los parametros de enrtrada. */
-
-    fscanf(parametros, "%f %f %d", &media_entre_llegadas, &media_atencion,
-           &num_esperas_requerido);
-
-    /* Escribe en el archivo de salida los encabezados del reporte y los parametros iniciales */
-
-    fprintf(resultados, "Sistema de Colas Simple\n\n");
-    fprintf(resultados, "Tiempo promedio de llegada%11.3f minutos\n\n",
-            media_entre_llegadas);
-    fprintf(resultados, "Tiempo promedio de atencion%16.3f minutos\n\n", media_atencion);
-    fprintf(resultados, "Numero de clientes%14d\n\n", num_esperas_requerido);
-
     /* Inicializa la simulacion. */
 
     inicializar();
@@ -60,10 +40,6 @@ int main(void) /* Funcion Principal */
         /* Determina el siguiente evento */
 
         controltiempo();
-
-        /* Actualiza los acumuladores estadisticos de tiempo promedio */
-
-        actualizar_estad_prom_tiempo();
 
         /* Invoca la funcion del evento adecuado. */
 
@@ -90,6 +66,18 @@ int main(void) /* Funcion Principal */
 
 void inicializar(void) /* Funcion de inicializacion. */
 {
+    parametros = fopen("param.txt", "r");
+    resultados = fopen("result.txt", "w");
+
+    /* Especifica el numero de eventos para la funcion controltiempo. */
+
+    num_eventos = 2;
+
+    /* Lee los parametros de enrtrada. */
+
+    fscanf(parametros, "%f %f %d", &media_entre_llegadas, &media_atencion,
+           &num_esperas_requerido);
+
     /* Inicializa el reloj de la simulacion. */
 
     tiempo_simulacion = 0.0;
@@ -144,6 +132,21 @@ void controltiempo(void) /* Funcion controltiempo */
     /* TLa lista de eventos no esta vacia, adelanta el reloj de la simulacion. */
 
     tiempo_simulacion = min_tiempo_sig_evento;
+
+    /* Actualiza los acumuladores de area para las estadisticas de tiempo promedio. */
+    float time_since_last_event;
+
+    /* Calcula el tiempo desde el ultimo evento, y actualiza el marcador
+    	del ultimo evento */
+
+    time_since_last_event = tiempo_simulacion - tiempo_ultimo_evento;
+    tiempo_ultimo_evento = tiempo_simulacion;
+
+    /* Actualiza el area bajo la funcion de numero_en_cola */
+    area_num_entra_cola += num_entra_cola * time_since_last_event;
+
+    /*Actualiza el area bajo la funcion indicadora de servidor ocupado*/
+    area_estado_servidor += estado_servidor * time_since_last_event;
 }
 
 void llegada(void) /* Funcion de llegada */
@@ -159,7 +162,7 @@ void llegada(void) /* Funcion de llegada */
     if (estado_servidor == OCUPADO)
     {
 
-        /* Sservidor OCUPADO, aumenta el numero de clientes en cola */
+        /* Servidor OCUPADO, aumenta el numero de clientes en cola */
 
         ++num_entra_cola;
 
@@ -241,6 +244,14 @@ void salida(void) /* Funcion de Salida. */
 
 void reportes(void) /* Funcion generadora de reportes. */
 {
+    /* Escribe en el archivo de salida los encabezados del reporte y los parametros iniciales */
+
+    fprintf(resultados, "Sistema de Colas Simple\n\n");
+    fprintf(resultados, "Tiempo promedio de llegada%11.3f minutos\n\n",
+            media_entre_llegadas);
+    fprintf(resultados, "Tiempo promedio de atencion%16.3f minutos\n\n", media_atencion);
+    fprintf(resultados, "Numero de clientes%14d\n\n", num_esperas_requerido);
+
     /* Calcula y estima los estimados de las medidas deseadas de desempe�o */
     fprintf(resultados, "\n\nEspera promedio en la cola%11.3f minutos\n\n",
             total_de_esperas / num_clientes_espera);
@@ -249,23 +260,6 @@ void reportes(void) /* Funcion generadora de reportes. */
     fprintf(resultados, "Uso del servidor%15.3f\n\n",
             area_estado_servidor / tiempo_simulacion);
     fprintf(resultados, "Tiempo de terminacion de la simulacion%12.3f minutos", tiempo_simulacion);
-}
-
-void actualizar_estad_prom_tiempo(void) /* Actualiza los acumuladores de area para las estadisticas de tiempo promedio. */
-{
-    float time_since_last_event;
-
-    /* Calcula el tiempo desde el ultimo evento, y actualiza el marcador
-    	del ultimo evento */
-
-    time_since_last_event = tiempo_simulacion - tiempo_ultimo_evento;
-    tiempo_ultimo_evento = tiempo_simulacion;
-
-    /* Actualiza el area bajo la funcion de numero_en_cola */
-    area_num_entra_cola += num_entra_cola * time_since_last_event;
-
-    /*Actualiza el area bajo la funcion indicadora de servidor ocupado*/
-    area_estado_servidor += estado_servidor * time_since_last_event;
 }
 
 float expon(float media) /* Funcion generadora de la exponencias */
