@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <random>
 #include "lcgrand.cpp"  /* Encabezado para el generador de numeros aleatorios */
 
 #define LIMITE_COLA 100  /* Capacidad maxima de la cola */
@@ -21,35 +22,12 @@ void  controltiempo(void);
 void  llegada(void);
 void  salida(void);
 void  reportes(void);
-void  actualizar_estad_prom_tiempo(void);
 float expon(float mean);
-int   dist_uniforme(int rango_a, int rango_b);
+float dist_uniforme(int rango_a, int rango_b);
 
 
 int main(void)  /* Funcion Principal */
 {
-    /* Abre los archivos de entrada y salida */
-
-    parametros  = fopen("param_d.txt",  "r");
-    resultados = fopen("result_d.txt", "w");
-
-    /* Especifica el numero de eventos para la funcion controltiempo. */
-
-    num_eventos = 2;
-
-    /* Lee los parametros de enrtrada. */
-
-    fscanf(parametros, "%f %f %d %d %d", &media_entre_llegadas, &media_atencion,
-           &num_esperas_requerido, &rango_a, &rango_b);
-
-    /* Escribe en el archivo de salida los encabezados del reporte y los parametros iniciales */
-
-    fprintf(resultados, "Sistema de Colas Simple\n\n");
-    fprintf(resultados, "Tiempo promedio de llegada%11.3f minutos\n\n",
-            media_entre_llegadas);
-    fprintf(resultados, "Tiempo promedio de atencion%16.3f minutos\n\n", media_atencion);
-    fprintf(resultados, "Numero de clientes%14d\n\n", num_esperas_requerido);
-    fprintf(resultados, "Distribucion uniforme(%d , %d)",rango_a, rango_b);
 
     /* iInicializa la simulacion. */
 
@@ -63,10 +41,6 @@ int main(void)  /* Funcion Principal */
 
         controltiempo();
 
-        /* Actualiza los acumuladores estadisticos de tiempo promedio */
-
-        actualizar_estad_prom_tiempo();
-
         /* Invoca la funcion del evento adecuado. */
 
         switch (sig_tipo_evento) {
@@ -78,7 +52,6 @@ int main(void)  /* Funcion Principal */
                 break;
         }
     }
-
     /* Invoca el generador de reportes y termina la simulacion. */
 
     reportes();
@@ -92,6 +65,20 @@ int main(void)  /* Funcion Principal */
 
 void inicializar(void)  /* Funcion de inicializacion. */
 {
+     /* Abre los archivos de entrada y salida */
+
+    parametros  = fopen("param_u_m_1.txt",  "r");
+    resultados = fopen("result_u_m_1.txt", "w");
+
+    /* Especifica el numero de eventos para la funcion controltiempo. */
+
+    num_eventos = 2;
+
+    /* Lee los parametros de enrtrada. */
+
+    fscanf(parametros, " %f %d %d %d", &media_atencion,
+           &num_esperas_requerido, &rango_a, &rango_b);
+
     /* Inicializa el reloj de la simulacion. */
 
     tiempo_simulacion = 0.0;
@@ -108,6 +95,9 @@ void inicializar(void)  /* Funcion de inicializacion. */
     total_de_esperas    = 0.0;
     area_num_entra_cola      = 0.0;
     area_estado_servidor = 0.0;
+
+    /*Calcula la media entre llegadas dada por los rangos de la distribucion*/
+    media_entre_llegadas = (rango_a+rango_b)/2;
 
     /* Inicializa la lista de eventos. Ya que no hay clientes, el evento salida
        (terminacion del servicio) no se tiene en cuenta */
@@ -145,6 +135,20 @@ void controltiempo(void)  /* Funcion controltiempo */
     /* TLa lista de eventos no esta vacia, adelanta el reloj de la simulacion. */
 
     tiempo_simulacion = min_tiempo_sig_evento;
+    /* Actualiza los acumuladores de area para las estadisticas de tiempo promedio. */
+    float time_since_last_event;
+
+    /* Calcula el tiempo desde el ultimo evento, y actualiza el marcador
+    	del ultimo evento */
+
+    time_since_last_event = tiempo_simulacion - tiempo_ultimo_evento;
+    tiempo_ultimo_evento       = tiempo_simulacion;
+
+    /* Actualiza el area bajo la funcion de numero_en_cola */
+    area_num_entra_cola      += num_entra_cola * time_since_last_event;
+
+    /*Actualiza el area bajo la funcion indicadora de servidor ocupado*/
+    area_estado_servidor += estado_servidor * time_since_last_event;
 }
 
 
@@ -155,7 +159,7 @@ void llegada(void)  /* Funcion de llegada */
     /* Programa la siguiente llegada. */
 
     tiempo_sig_evento[1] = tiempo_simulacion + dist_uniforme(rango_a,rango_b);
-
+    
     /* Reisa si el servidor esta OCUPADO. */
 
     if (estado_servidor == OCUPADO) {
@@ -241,6 +245,15 @@ void salida(void)  /* Funcion de Salida. */
 
 void reportes(void)  /* Funcion generadora de reportes. */
 {
+    /* Escribe en el archivo de salida los encabezados del reporte y los parametros iniciales */
+
+    fprintf(resultados, "Sistema de Colas Simple (Uniforme(a1,b1)/M/1)\n\n");
+    fprintf(resultados, "Tiempo promedio de llegada%11.3f minutos\n\n",
+            media_entre_llegadas);
+    fprintf(resultados, "Tiempo promedio de atencion%16.3f minutos\n\n", media_atencion);
+    fprintf(resultados, "Numero de clientes%14d\n\n", num_esperas_requerido);
+    fprintf(resultados, "Distribucion uniforme(%d , %d)",rango_a, rango_b);
+
     /* Calcula y estima los estimados de las medidas deseadas de desempe�o */  
     fprintf(resultados, "\n\nEspera promedio en la cola%11.3f minutos\n\n",
             total_de_esperas / num_clientes_espera);
@@ -252,35 +265,18 @@ void reportes(void)  /* Funcion generadora de reportes. */
 }
 
 
-void actualizar_estad_prom_tiempo(void)  /* Actualiza los acumuladores de
-														area para las estadisticas de tiempo promedio. */
-{
-    float time_since_last_event;
-
-    /* Calcula el tiempo desde el ultimo evento, y actualiza el marcador
-    	del ultimo evento */
-
-    time_since_last_event = tiempo_simulacion - tiempo_ultimo_evento;
-    tiempo_ultimo_evento       = tiempo_simulacion;
-
-    /* Actualiza el area bajo la funcion de numero_en_cola */
-    area_num_entra_cola      += num_entra_cola * time_since_last_event;
-
-    /*Actualiza el area bajo la funcion indicadora de servidor ocupado*/
-    area_estado_servidor += estado_servidor * time_since_last_event;
-}
 
 
 float expon(float media)  /* Funcion generadora de la exponencias */
 {
     /* Retorna una variable aleatoria exponencial con media "media"*/
-
     return -media * log(lcgrand(1));
 }
 
-int dist_uniforme(int a, int b){
+float dist_uniforme(int a, int b){
     double n = rand()/(1.0 + RAND_MAX);
     int rango = b-a+1;
     int n_generado = (n*rango)+a;
-    return n_generado;
+    float u = n_generado*(b-a) + a;
+    return u;
 }
