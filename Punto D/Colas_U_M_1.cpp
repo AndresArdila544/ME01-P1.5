@@ -273,10 +273,15 @@ float expon(float media)  /* Funcion generadora de la exponencias */
     return -media * log(lcgrand(0));
 }
 
-float dist_uniforme(int a, int b){
-    double n = lcgrand(1); //rand()/(1.0 + RAND_MAX);
-    int rango = b-a+1;
-    int n_generado = (n*rango)+a;
-    float u = n_generado*(b-a) + a;
+float dist_uniforme(int a, int b){ /*Funcion generadora uniforme*/
+    if(a <=0 || b <=0){
+        fprintf(resultados, "Los valores de los limites de la distribucion uniforme no pueden ser negativos");
+        exit(1);
+    }
+    if(a>b){
+        fprintf(resultados, "El valor de a no puede ser mayor que b.");
+        exit(4);
+    }
+    float u = lcgrand(1)*(b-a) + a;
     return u;
 }
