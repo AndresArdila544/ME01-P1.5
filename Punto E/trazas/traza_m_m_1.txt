@@ -1,0 +1,140 @@
+Inicializacion
+
+tiempo evento de llegada: 6.404803, tiempo evento de salida: 1000000015047466219876688855040.000000
+
+Control Tiempo
+
+min tiempo sig evento: 6.404803
+sig evento (0 = ninguno, 1 = llegada, 2 = salida): 1
+area num entra cola: 0.000000
+Servidor ocupado? 0, area estado servidor: 0.000000
+
+Evento Llegada
+
+Tiempo siguiente llegada programado a: 9.823854
+Servidor LIBRE, pasa a OCUPADO. num clientes esperados incrementado: 1
+Tiempo siguiente salida programado a: 13.089920
+
+Control Tiempo
+
+min tiempo sig evento: 9.823854
+sig evento (0 = ninguno, 1 = llegada, 2 = salida): 1
+area num entra cola: 0.000000
+Servidor ocupado? 1, area estado servidor: 3.419051
+
+Evento Llegada
+
+Tiempo siguiente llegada programado a: 16.541714
+Servidor ocupado, agregado a la cola. Num de clientes en cola: 1
+
+Control Tiempo
+
+min tiempo sig evento: 13.089920
+sig evento (0 = ninguno, 1 = llegada, 2 = salida): 2
+area num entra cola: 3.266066
+Servidor ocupado? 1, area estado servidor: 6.685117
+
+Evento Salida
+
+Hay 1  elementos en la cola, quitando uno
+Tiempo de espera del ultimo elemento: 3.266066, tiempo total de espera: 3.266066
+Numero de clientes esperados incrementado: 2
+
+Control Tiempo
+
+min tiempo sig evento: 16.541714
+sig evento (0 = ninguno, 1 = llegada, 2 = salida): 1
+area num entra cola: 3.266066
+Servidor ocupado? 1, area estado servidor: 10.136910
+
+Evento Llegada
+
+Tiempo siguiente llegada programado a: 18.947834
+Servidor ocupado, agregado a la cola. Num de clientes en cola: 1
+
+Control Tiempo
+
+min tiempo sig evento: 18.537516
+sig evento (0 = ninguno, 1 = llegada, 2 = salida): 2
+area num entra cola: 5.261868
+Servidor ocupado? 1, area estado servidor: 12.132712
+
+Evento Salida
+
+Hay 1  elementos en la cola, quitando uno
+Tiempo de espera del ultimo elemento: 1.995802, tiempo total de espera: 5.261868
+Numero de clientes esperados incrementado: 3
+
+Control Tiempo
+
+min tiempo sig evento: 18.947834
+sig evento (0 = ninguno, 1 = llegada, 2 = salida): 1
+area num entra cola: 5.261868
+Servidor ocupado? 1, area estado servidor: 12.543031
+
+Evento Llegada
+
+Tiempo siguiente llegada programado a: 20.221762
+Servidor ocupado, agregado a la cola. Num de clientes en cola: 1
+
+Control Tiempo
+
+min tiempo sig evento: 20.221762
+sig evento (0 = ninguno, 1 = llegada, 2 = salida): 1
+area num entra cola: 6.535795
+Servidor ocupado? 1, area estado servidor: 13.816958
+
+Evento Llegada
+
+Tiempo siguiente llegada programado a: 23.278114
+Servidor ocupado, agregado a la cola. Num de clientes en cola: 2
+
+Control Tiempo
+
+min tiempo sig evento: 23.278114
+sig evento (0 = ninguno, 1 = llegada, 2 = salida): 1
+area num entra cola: 12.648500
+Servidor ocupado? 1, area estado servidor: 16.873310
+
+Evento Llegada
+
+Tiempo siguiente llegada programado a: 30.133627
+Servidor ocupado, agregado a la cola. Num de clientes en cola: 3
+
+Control Tiempo
+
+min tiempo sig evento: 30.133627
+sig evento (0 = ninguno, 1 = llegada, 2 = salida): 1
+area num entra cola: 33.215038
+Servidor ocupado? 1, area estado servidor: 23.728823
+
+Evento Llegada
+
+Tiempo siguiente llegada programado a: 37.518284
+Servidor ocupado, agregado a la cola. Num de clientes en cola: 4
+
+Control Tiempo
+
+min tiempo sig evento: 32.032608
+sig evento (0 = ninguno, 1 = llegada, 2 = salida): 2
+area num entra cola: 40.810963
+Servidor ocupado? 1, area estado servidor: 25.627804
+
+Evento Salida
+
+Hay 4  elementos en la cola, quitando uno
+Tiempo de espera del ultimo elemento: 13.084774, tiempo total de espera: 18.346642
+Numero de clientes esperados incrementado: 4
+
+Control Tiempo
+
+min tiempo sig evento: 34.190651
+sig evento (0 = ninguno, 1 = llegada, 2 = salida): 2
+area num entra cola: 47.285091
+Servidor ocupado? 1, area estado servidor: 27.785847
+
+Evento Salida
+
+Hay 3  elementos en la cola, quitando uno
+Tiempo de espera del ultimo elemento: 13.968889, tiempo total de espera: 32.315529
+Numero de clientes esperados incrementado: 5
