@@ -11,7 +11,7 @@
 #define LIBRE      0  /* Indicador de Servidor Libre */
 
 int   sig_tipo_evento, num_clientes_espera, num_esperas_requerido, num_eventos,
-      num_entra_cola, estado_servidor, rango_a,rango_b, rango_a2;
+      num_entra_cola, estado_servidor, rango_a,rango_b, rango_a2, rango_b2;
 float area_num_entra_cola, area_estado_servidor, media_entre_llegadas, media_atencion,
       tiempo_simulacion, tiempo_llegada[LIMITE_COLA + 1], tiempo_ultimo_evento, tiempo_sig_evento[3],
       total_de_esperas;
@@ -75,8 +75,8 @@ void inicializar(void)  /* Funcion de inicializacion. */
 
     /* Lee los parametros de enrtrada. */
 
-    fscanf(parametros, " %f %d %d %d %d", &media_atencion,
-           &num_esperas_requerido, &rango_a, &rango_b, &rango_a2);
+    fscanf(parametros, " %f %d %d %d %d %d", &media_atencion,
+           &num_esperas_requerido, &rango_a, &rango_b, &rango_a2, &rango_b2);
 
     /* Inicializa el reloj de la simulacion. */
 
@@ -199,7 +199,7 @@ void llegada(void)  /* Funcion de llegada */
 
         /* Programa una salida ( servicio terminado ). */     
 
-        tiempo_sig_evento[2] = tiempo_simulacion + dist_uniforme(rango_a2,rango_b);
+        tiempo_sig_evento[2] = tiempo_simulacion + dist_uniforme(rango_a2,rango_b2);
     }
 }
 
@@ -252,7 +252,7 @@ void reportes(void)  /* Funcion generadora de reportes. */
     fprintf(resultados, "Tiempo promedio de atencion%16.3f minutos\n\n", media_atencion);
     fprintf(resultados, "Numero de clientes%14d\n\n", num_esperas_requerido);
     fprintf(resultados, "Distribucion uniforme 1(%d , %d)\n\n",rango_a, rango_b);
-    fprintf(resultados, "Distribucion uniforme 2(%d , %d)\n",rango_a2, rango_b);
+    fprintf(resultados, "Distribucion uniforme 2(%d , %d)\n",rango_a2, rango_b2);
     /* Calcula y estima los estimados de las medidas deseadas de desempe�o */  
     fprintf(resultados, "\n\nEspera promedio en la cola%11.3f minutos\n\n",
             total_de_esperas / num_clientes_espera);
@@ -266,9 +266,14 @@ void reportes(void)  /* Funcion generadora de reportes. */
 
 
 float dist_uniforme(int a, int b){ /*Funcion generadora uniforme*/
-    double n = lcgrand(1);//rand()/(1.0 + RAND_MAX);
-    int rango = b-a+1;
-    int n_generado = (n*rango)+a;
-    float u = n_generado*(b-a) + a;
+    if(a <=0 || b <=0){
+        fprintf(resultados, "Los valores de los limites de la distribucion uniforme no pueden ser negativos");
+        exit(3);
+    }
+    if(a>b){
+        fprintf(resultados, "El valor de a no puede ser mayor que b.");
+        exit(4);
+    }
+    float u = lcgrand(1)*(b-a) + a;
     return u;
 }
