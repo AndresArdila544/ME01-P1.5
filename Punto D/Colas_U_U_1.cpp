@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <random>
+//#include <random>
 #include "lcgrand.cpp"  /* Encabezado para el generador de numeros aleatorios */
 
 #define LIMITE_COLA 100  /* Capacidad maxima de la cola */
@@ -251,8 +251,8 @@ void reportes(void)  /* Funcion generadora de reportes. */
             media_entre_llegadas);
     fprintf(resultados, "Tiempo promedio de atencion%16.3f minutos\n\n", media_atencion);
     fprintf(resultados, "Numero de clientes%14d\n\n", num_esperas_requerido);
-    fprintf(resultados, "Distribucion uniforme(%d , %d)",rango_a, rango_b);
-
+    fprintf(resultados, "Distribucion uniforme 1(%d , %d)\n\n",rango_a, rango_b);
+    fprintf(resultados, "Distribucion uniforme 2(%d , %d)\n",rango_a2, rango_b);
     /* Calcula y estima los estimados de las medidas deseadas de desempe�o */  
     fprintf(resultados, "\n\nEspera promedio en la cola%11.3f minutos\n\n",
             total_de_esperas / num_clientes_espera);
@@ -266,7 +266,7 @@ void reportes(void)  /* Funcion generadora de reportes. */
 
 
 float dist_uniforme(int a, int b){ /*Funcion generadora uniforme*/
-    double n = rand()/(1.0 + RAND_MAX);
+    double n = lcgrand(1);//rand()/(1.0 + RAND_MAX);
     int rango = b-a+1;
     int n_generado = (n*rango)+a;
     float u = n_generado*(b-a) + a;

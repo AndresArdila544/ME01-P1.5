@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <random>
+//#include <random>
 #include "lcgrand.cpp"  /* Encabezado para el generador de numeros aleatorios */
 
 #define LIMITE_COLA 100  /* Capacidad maxima de la cola */
@@ -270,11 +270,11 @@ void reportes(void)  /* Funcion generadora de reportes. */
 float expon(float media)  /* Funcion generadora de la exponencias */
 {
     /* Retorna una variable aleatoria exponencial con media "media"*/
-    return -media * log(lcgrand(1));
+    return -media * log(lcgrand(0));
 }
 
 float dist_uniforme(int a, int b){
-    double n = rand()/(1.0 + RAND_MAX);
+    double n = lcgrand(1); //rand()/(1.0 + RAND_MAX);
     int rango = b-a+1;
     int n_generado = (n*rango)+a;
     float u = n_generado*(b-a) + a;

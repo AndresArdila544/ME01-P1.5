@@ -6,12 +6,14 @@ Tiempo promedio de atencion          10.000 minutos
 
 Numero de clientes            13
 
-Distribucion uniforme(1 , 25)
+Distribucion uniforme 1(1 , 25)
+Distribucion uniforme 2(10 , 25)
 
-Espera promedio en la cola     23.538 minutos
 
-Numero promedio en cola     0.062
+Espera promedio en la cola     78.692 minutos
 
-Uso del servidor          0.626
+Numero promedio en cola     0.214
 
-Tiempo de terminacion de la simulacion    4933.000 minutos
+Uso del servidor          0.652
+
+Tiempo de terminacion de la simulacion    4855.000 minutos
