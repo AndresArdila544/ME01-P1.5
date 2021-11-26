@@ -1,0 +1,16 @@
+ME01: PUNTO 5 PARCIAL 1.
+Andres Ardila
+Sergio Andres Gonzalez
+Miguel Alejandro Peña
+Lucas Peña
+Edisson Prieto
+Alejandra Zambrano
+
+En cada carpeta se encuentran los disitntos simuladores solcitados en el ejercicio.
+
+Carpeta M.M.1 = Simulador de colas (M/M/1)
+Carpeta M.M.N = Simulador de colas (M/M/N):(FIFO/n/inf)
+Carpeta U.M.1 = Simulador de colas (U(a1,b1)/M/1)
+Carpeta U.U.1 = Simulador de colas (U(a1,b1),U(a2,b2)/1)
+
+Las instrucciones para ejecutar el programa se encuentran en el archivo Manuales de Usuario y Manuales técnicos.
