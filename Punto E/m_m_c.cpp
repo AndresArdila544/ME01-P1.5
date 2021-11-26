@@ -114,7 +114,7 @@ void controltiempo(void) /* Funcion controltiempo */
     int i;
     float min_tiempo_sig_evento = 1.0e+29;
 
-    tiempo_sig_evento[2] = 1.0e+29;
+    //tiempo_sig_evento[2] = 1.0e+29;
 
     //// Determinar el menor de los posibles tiempos de salida ////
 
@@ -284,7 +284,7 @@ void reportes(void) /* Funcion generadora de reportes. */
 {
     /* Escribe en el archivo de salida los encabezados del reporte y los parametros iniciales */
 
-    fprintf(resultados, "Sistema de Colas Simple\n\n");
+    fprintf(resultados, "Sistema de Colas Simple (M/M/s)\n\n");
     fprintf(resultados, "Tiempo promedio de llegada%11.3f minutos\n\n",
             media_entre_llegadas);
     fprintf(resultados, "Tiempo promedio de atencion%16.3f minutos\n\n", media_atencion);
