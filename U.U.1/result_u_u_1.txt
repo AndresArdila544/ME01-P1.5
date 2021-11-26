@@ -1,0 +1,20 @@
+Sistema de Colas Simple (Uniforme(a1,b1)/Uniforme(a2,b1)/1)
+
+Tiempo promedio de llegada     17.000 minutos
+
+Tiempo promedio de atencion          20.000 minutos
+
+Numero de clientes           150
+
+Distribucion uniforme 1(10 , 25)
+
+Distribucion uniforme 2(12 , 28)
+
+
+Espera promedio en la cola    196.621 minutos
+
+Numero promedio en cola    11.433
+
+Uso del servidor          0.993
+
+Tiempo de terminacion de la simulacion    2995.994 minutos

@@ -75,7 +75,7 @@ void inicializar(void)  /* Funcion de inicializacion. */
 
     /* Lee los parametros de enrtrada. */
 
-    fscanf(parametros, " %f %d %d %d %d %d", &media_atencion,
+    fscanf(parametros, " %d %d %d %d %d", 
            &num_esperas_requerido, &rango_a, &rango_b, &rango_a2, &rango_b2);
 
     /* Inicializa el reloj de la simulacion. */
@@ -97,6 +97,9 @@ void inicializar(void)  /* Funcion de inicializacion. */
 
     /*Calcula la media entre llegadas dada por los rangos de la distribucion*/
     media_entre_llegadas = (rango_a+rango_b)/2;
+
+     /*Calcula la media de atencion dada por los rangos de la distribucion*/
+    media_atencion = (rango_a2+rango_b2)/2;
 
     /* Inicializa la lista de eventos. Ya que no hay clientes, el evento salida
        (terminacion del servicio) no se tiene en cuenta */
@@ -232,7 +235,7 @@ void salida(void)  /* Funcion de Salida. */
 
         /*Incrementa el numero de clientes en espera, y programa la salida. */   
         ++num_clientes_espera;
-        tiempo_sig_evento[2] = tiempo_simulacion + dist_uniforme(rango_a2,rango_b);
+        tiempo_sig_evento[2] = tiempo_simulacion + dist_uniforme(rango_a2,rango_b2);
         //printf("Tiempo sig even 2 %f\n",tiempo_sig_evento[2]);
 
         /* Mueve cada cliente en la cola ( si los hay ) una posicion hacia adelante */
